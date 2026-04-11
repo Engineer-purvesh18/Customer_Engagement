@@ -1,114 +1,111 @@
-# Customer_Engagement
+# 🍽️ Yelp Customer Engagement Analysis
 
-
-## 📌 Project Overview
-
-This project focuses on analyzing a dataset downloaded from the Yelp website, which is provided in JSON format. The goal of this repository is to extract meaningful insights from raw data using data processing, database creation, and analytical techniques.
-
-The workflow includes:
-
-* Parsing and cleaning JSON data
-* Creating a structured database
-* Performing exploratory data analysis (EDA)
-* Generating insights from the dataset
+An exploratory data analysis project using the **Yelp Open Dataset** to uncover patterns in customer engagement, restaurant performance, and user behavior across the platform.
 
 ---
 
-## 📂 Repository Structure
+## 📁 Project Structure
 
 ```
-.
-├── Analysis.ipynb             # Data analysis and visualization
-├── DB_Creatiion.ipynb         # Scripts to convert JSON into structured database
-├── .gitignore                 # Contains all unnecessary files
-└── README.md                  # Project documentation
+CUSTOMER_ENGAGEMENT/
+├── Yelp JSON/          # Raw Yelp dataset (JSON files)
+├── analysis.ipynb      # Main EDA notebook
+├── DB_Creation.ipynb   # SQLite database creation from JSON
+├── yelp.db             # SQLite database
+└── README.md
 ```
 
 ---
 
-## ⚙️ Technologies Used
+## 🗃️ Database Schema
 
-* Python
-* Jupyter Notebook
-* Pandas
-* NumPy
-* SQLite / SQL (for database creation)
-* Matplotlib / Seaborn (for visualization)
+The project uses a SQLite database (`yelp.db`) with 5 tables derived from the Yelp Open Dataset:
 
----
-
-## 🗂️ Dataset
-
-The dataset is sourced from Yelp and is available in JSON format. It typically includes:
-
-* Business information
-* User reviews
-* Ratings
-* User data
-
-⚠️ Note: Due to size restrictions, the dataset may not be included in this repository. You can download it from the official Yelp dataset website.
+| Table | Description |
+|---|---|
+| `business` | Business info — name, location, stars, review count, categories |
+| `review` | User reviews with star ratings, text, and reaction counts (useful/funny/cool) |
+| `user` | User profiles including elite status, friends, fans, and compliments |
+| `tip` | Short tips left by users for businesses |
+| `checkin` | Timestamped check-in records per business |
 
 ---
 
-## 🚀 Usage
+## 🔍 Analysis Overview
 
-### Step 1: Database Creation
+The notebook `analysis.ipynb` focuses exclusively on **open restaurants** and answers the following key questions:
 
-Run `DB_Creation.ipynb` to:
-
-* Load JSON data
-* Transform it into structured tables
-* Store it in a database 
-
-### Step 2: Data Analysis
-
-Run `Analysis.ipynb` to:
-
-* Explore the dataset
-* Perform statistical analysis
-* Generate visualizations
+1. **Which restaurants have the highest reviews and ratings?**
+2. **Do higher-rated restaurants receive more engagement (reviews, tips, check-ins)?**
+3. **Is there a correlation between reviews, tips, and check-ins?**
+4. **How does engagement differ between high-rated (≥3.5⭐) and low-rated (<3.5⭐) businesses?**
+5. **How do restaurants perform across different cities and states?**
+6. **Are there seasonal trends in user engagement over time?**
+7. **How does review sentiment (useful, funny, cool) correlate with restaurant success?**
+8. **Do elite users drive more engagement than non-elite users?**
+9. **What are the busiest hours for tips, reviews, and check-ins?**
 
 ---
 
-## 📊 Key Insights (Example)
+## 📊 Key Conclusions
 
-Some insights you might explore:
+### 🌟 Rating & Engagement
+- **Higher-rated restaurants (≥3.5 stars) consistently attract more reviews, tips, and check-ins** than lower-rated ones, confirming that quality drives sustained customer engagement across all interaction types.
+- The correlation heatmap reveals a **strong positive correlation between review count, tip count, and check-in count**, indicating that engagement metrics reinforce each other — a popular restaurant tends to score high on all dimensions simultaneously.
 
-* Distribution of ratings
-* Most reviewed businesses
-* Trends in user activity
-* Location-based analysis
+### 🗺️ Geographic Performance
+- Restaurant performance varies significantly by city and state. A custom **success score** (computed as `avg_rating × log(review_count + 1)`) was used to compare cities fairly, balancing both volume and quality.
+- Top-performing cities cluster in high-density metro areas, showing the importance of market size on overall review volume.
 
----
+### 📅 Seasonal & Temporal Trends
+- Seasonal decomposition of monthly tip and review counts for high-rated businesses reveals **recurring annual patterns**, with engagement generally peaking in warmer months and dipping around the start of the year.
+- Review sentiment scores (useful, funny, cool) show only a **modest correlation with success metrics**, suggesting that while positive engagement helps, the volume of interaction matters more than sentiment type alone.
 
-## 🧩 Future Improvements
+### 👑 Elite vs. Non-Elite Users
+- **Elite users represent a small minority of the user base** but contribute a disproportionately large share of total reviews, demonstrating their outsized impact on Yelp's content ecosystem.
+- Businesses that attract elite reviewers tend to accumulate more credibility and visibility on the platform.
 
-* Add advanced machine learning models
-* Perform sentiment analysis on reviews
-* Build a dashboard for visualization
-* Optimize database queries for performance
-
----
-
-## 🤝 Contributing
-
-Contributions are welcome! Feel free to fork this repository and submit a pull request.
+### ⏰ Peak Engagement Hours
+- **Tips and reviews peak in the evening hours** (roughly 6 PM – 9 PM), aligning with typical restaurant dining times.
+- **Check-ins show a broader spread** throughout the day but also concentrate in late afternoon and evening, suggesting customers check in at arrival while leaving reviews and tips after the experience.
 
 ---
 
-## 📜 License
+## 🛠️ Tech Stack
 
-This project is for educational purposes. Please refer to Yelp's dataset usage policy before using the data commercially.
+- **Python 3.13**
+- **pandas** — data manipulation
+- **SQLite3** — database querying
+- **matplotlib / seaborn** — static visualizations
+- **folium** — interactive geospatial map
+- **statsmodels** — seasonal decomposition (time series)
+- **geopy** — geocoding support
+- **numpy** — numerical operations
 
 ---
 
-## 👤 Author
+## 🚀 Getting Started
 
-Purvesh Bhave
+### Prerequisites
+```bash
+pip install pandas matplotlib seaborn folium geopy statsmodels numpy
+```
+
+### Steps
+1. Clone the repository.
+2. Place the Yelp JSON dataset files inside the `Yelp JSON/` folder.
+3. Run `DB_Creation.ipynb` to build the `yelp.db` SQLite database.
+4. Open and run `analysis.ipynb` to explore the analysis.
 
 ---
 
-## ⭐ Acknowledgements
+## 📦 Dataset
 
-* Yelp for providing the dataset
-* Open-source Python community
+This project uses the [Yelp Open Dataset](https://www.yelp.com/dataset). Download it separately and place the JSON files in the `Yelp JSON/` directory before running `DB_Creation.ipynb`.
+
+---
+
+## 📌 Notes
+
+- Outliers in `review_count`, `useful_count`, `funny_count`, and `cool_count` are removed using the **IQR method** to prevent skewed visualizations.
+- The analysis scope is restricted to **open restaurants** (`is_open = 1` and `categories LIKE '%restaurant%'`).
